@@ -11,26 +11,26 @@ namespace StudentExercisesMVC.Models
         public int Id { get; set; }
         [Required]
         [Display(Name = "First Name")]
-        public string FirstName { get; set; }
+        public string InstructorFirstName { get; set; }
         [Required]
         [Display(Name = "Last Name")]
-        public string LastName { get; set; }
+        public string InstructorLastName { get; set; }
 
         [Display(Name = "Instructor Name")]
-        public string FullName
+        public string InstructorFullName
         {
             get
             {
-                return $"{FirstName} {LastName}";
+                return $"{InstructorFirstName} {InstructorLastName}";
             }
         }
 
         [Required]
         [Display(Name = "Slack")]
-        public string SlackHandle { get; set; }
+        public string InstructorSlackHandle { get; set; }
         [Required]
         [Display(Name = "Cohort")]
-        public int CohortId { get; set; }
+        public int instructor_cohort_id { get; set; }
         public Cohort Cohort { get; set; }
     }
 }

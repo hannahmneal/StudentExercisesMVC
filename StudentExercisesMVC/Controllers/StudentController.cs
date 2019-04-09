@@ -43,7 +43,7 @@ namespace StudentExercisesMVC.Controllers
                     {
                         Student student = new Student
                         {
-                            Id = reader.GetInt32(reader.GetOrdinal("StudentId")),
+                            Id = reader.GetInt32(reader.GetOrdinal("Id")),
                             StudentFirstName = reader.GetString(reader.GetOrdinal("StudentFirstName")),
                             StudentLastName = reader.GetString(reader.GetOrdinal("StudentLastName")),
                             StudentSlackHandle = reader.GetString(reader.GetOrdinal("StudentSlackHandle")),
@@ -63,9 +63,7 @@ namespace StudentExercisesMVC.Controllers
                 }
             }
         }
-    }
-}
-    
+
 
         // GET: Students/Details/5
         //public ActionResult Details(int id)
@@ -132,143 +130,143 @@ namespace StudentExercisesMVC.Controllers
         //}
 
         // POST: Student/Edit/5
-//        [HttpPost]
-//        [ValidateAntiForgeryToken]
-//        public ActionResult Edit(int id, StudentEditViewModel viewModel)
-//        {
-//            try
-//            {
-//                using (SqlConnection conn = Connection)
-//                {
-//                    conn.Open();
-//                    using (SqlCommand cmd = conn.CreateCommand())
-//                    {
-//                        cmd.CommandText = @"UPDATE student 
-//                                           SET StudentFirstName = @StudentFirstName, 
-//                                               StudentLastName = @StudentLastName,
-//                                               StudentSlackHandle = @StudentSlackHandle, 
-//                                               student_cohort_id = @student_cohort_id
-//                                         WHERE id = @id;";
-//                        cmd.Parameters.Add(new SqlParameter("@StudentFirstName", viewModel.Student.StudentFirstName));
-//                        cmd.Parameters.Add(new SqlParameter("@StudentLastName", viewModel.Student.StudentLastName));
-//                        cmd.Parameters.Add(new SqlParameter("@StudentSlackHandle", viewModel.Student.StudentSlackHandle));
-//                        cmd.Parameters.Add(new SqlParameter("@student_cohort_id", viewModel.Student.student_cohort_id));
-//                        cmd.Parameters.Add(new SqlParameter("@id", id));
+        //        [HttpPost]
+        //        [ValidateAntiForgeryToken]
+        //        public ActionResult Edit(int id, StudentEditViewModel viewModel)
+        //        {
+        //            try
+        //            {
+        //                using (SqlConnection conn = Connection)
+        //                {
+        //                    conn.Open();
+        //                    using (SqlCommand cmd = conn.CreateCommand())
+        //                    {
+        //                        cmd.CommandText = @"UPDATE student 
+        //                                           SET StudentFirstName = @StudentFirstName, 
+        //                                               StudentLastName = @StudentLastName,
+        //                                               StudentSlackHandle = @StudentSlackHandle, 
+        //                                               student_cohort_id = @student_cohort_id
+        //                                         WHERE id = @id;";
+        //                        cmd.Parameters.Add(new SqlParameter("@StudentFirstName", viewModel.Student.StudentFirstName));
+        //                        cmd.Parameters.Add(new SqlParameter("@StudentLastName", viewModel.Student.StudentLastName));
+        //                        cmd.Parameters.Add(new SqlParameter("@StudentSlackHandle", viewModel.Student.StudentSlackHandle));
+        //                        cmd.Parameters.Add(new SqlParameter("@student_cohort_id", viewModel.Student.student_cohort_id));
+        //                        cmd.Parameters.Add(new SqlParameter("@id", id));
 
-//                        cmd.ExecuteNonQuery();
+        //                        cmd.ExecuteNonQuery();
 
-//                        return RedirectToAction(nameof(Index));
-//                    }
-//                }
-//            }
-//            catch
-//            {
-//                viewModel.Cohorts = GetAllCohorts();
-//                return View(viewModel);
-//            }
-//        }
+        //                        return RedirectToAction(nameof(Index));
+        //                    }
+        //                }
+        //            }
+        //            catch
+        //            {
+        //                viewModel.Cohorts = GetAllCohorts();
+        //                return View(viewModel);
+        //            }
+        //        }
 
-//        // GET: Students/Delete/5
-//        public ActionResult Delete(int id)
-//        {
-//            return View();
-//        }
+        //        // GET: Students/Delete/5
+        //        public ActionResult Delete(int id)
+        //        {
+        //            return View();
+        //        }
 
-//        // POST: Students/Delete/5
-//        [HttpPost]
-//        [ValidateAntiForgeryToken]
-//        public ActionResult Delete(int id, IFormCollection collection)
-//        {
-//            try
-//            {
-//                // TODO: Add delete logic here
+        //        // POST: Students/Delete/5
+        //        [HttpPost]
+        //        [ValidateAntiForgeryToken]
+        //        public ActionResult Delete(int id, IFormCollection collection)
+        //        {
+        //            try
+        //            {
+        //                // TODO: Add delete logic here
 
-//                return RedirectToAction(nameof(Index));
-//            }
-//            catch
-//            {
-//                return View();
-//            }
-//        }
+        //                return RedirectToAction(nameof(Index));
+        //            }
+        //            catch
+        //            {
+        //                return View();
+        //            }
+        //        }
 
-//        private Student GetStudentById(int id)
-//        {
-//            using (SqlConnection conn = Connection)
-//            {
-//                conn.Open();
-//                using (SqlCommand cmd = conn.CreateCommand())
-//                {
-//                    cmd.CommandText = @"SELECT i.Id AS StudentId,
-//                                               i.StudentFirstName, i.StudentLastName, 
-//                                               i.StudentSlackHandle, i.student_cohort_id,
-//                                               c.CohortName AS CohortName
-//                                          FROM Student i LEFT JOIN Cohort c on i.student_cohort_id = c.id
-//                                         WHERE  i.Id = @id";
-//                    cmd.Parameters.Add(new SqlParameter("@id", id));
-//                    SqlDataReader reader = cmd.ExecuteReader();
+        //        private Student GetStudentById(int id)
+        //        {
+        //            using (SqlConnection conn = Connection)
+        //            {
+        //                conn.Open();
+        //                using (SqlCommand cmd = conn.CreateCommand())
+        //                {
+        //                    cmd.CommandText = @"SELECT i.Id AS StudentId,
+        //                                               i.StudentFirstName, i.StudentLastName, 
+        //                                               i.StudentSlackHandle, i.student_cohort_id,
+        //                                               c.CohortName AS CohortName
+        //                                          FROM Student i LEFT JOIN Cohort c on i.student_cohort_id = c.id
+        //                                         WHERE  i.Id = @id";
+        //                    cmd.Parameters.Add(new SqlParameter("@id", id));
+        //                    SqlDataReader reader = cmd.ExecuteReader();
 
-//                    Student student = null;
+        //                    Student student = null;
 
-//                    if (reader.Read())
-//                    {
-//                        student = new Student
-//                        {
-//                            Id = reader.GetInt32(reader.GetOrdinal("InstructorId")),
-//                            StudentFirstName = reader.GetString(reader.GetOrdinal("StudentFirstName")),
-//                            StudentLastName = reader.GetString(reader.GetOrdinal("StudentLastName")),
-//                            StudentSlackHandle = reader.GetString(reader.GetOrdinal("StudentSlackHandle")),
-//                            student_cohort_id = reader.GetInt32(reader.GetOrdinal("student_cohort_id")),
-//                            Cohort = new Cohort
-//                            {
-//                                Id = reader.GetInt32(reader.GetOrdinal("student_cohort_id")),
-//                                CohortName = reader.GetString(reader.GetOrdinal("CohortName")),
-//                            }
-//                        };
-//                    }
+        //                    if (reader.Read())
+        //                    {
+        //                        student = new Student
+        //                        {
+        //                            Id = reader.GetInt32(reader.GetOrdinal("InstructorId")),
+        //                            StudentFirstName = reader.GetString(reader.GetOrdinal("StudentFirstName")),
+        //                            StudentLastName = reader.GetString(reader.GetOrdinal("StudentLastName")),
+        //                            StudentSlackHandle = reader.GetString(reader.GetOrdinal("StudentSlackHandle")),
+        //                            student_cohort_id = reader.GetInt32(reader.GetOrdinal("student_cohort_id")),
+        //                            Cohort = new Cohort
+        //                            {
+        //                                Id = reader.GetInt32(reader.GetOrdinal("student_cohort_id")),
+        //                                CohortName = reader.GetString(reader.GetOrdinal("CohortName")),
+        //                            }
+        //                        };
+        //                    }
 
-//                    reader.Close();
+        //                    reader.Close();
 
-//                    return student;
-//                }
-//            }
+        //                    return student;
+        //                }
+        //            }
 
-//        }
+        //        }
 
-//        private List<Cohort> GetAllCohorts()
-//        {
-//            using (SqlConnection conn = Connection)
-//            {
-//                conn.Open();
-//                using (SqlCommand cmd = conn.CreateCommand())
-//                {
-//                    cmd.CommandText = @"SELECT id, name from Cohort;";
-//                    SqlDataReader reader = cmd.ExecuteReader();
+        //        private List<Cohort> GetAllCohorts()
+        //        {
+        //            using (SqlConnection conn = Connection)
+        //            {
+        //                conn.Open();
+        //                using (SqlCommand cmd = conn.CreateCommand())
+        //                {
+        //                    cmd.CommandText = @"SELECT id, name from Cohort;";
+        //                    SqlDataReader reader = cmd.ExecuteReader();
 
-//                    List<Cohort> cohorts = new List<Cohort>();
+        //                    List<Cohort> cohorts = new List<Cohort>();
 
-//                    while (reader.Read())
-//                    {
-//                        cohorts.Add(new Cohort
-//                        {
-//                            Id = reader.GetInt32(reader.GetOrdinal("Id")),
-//                            CohortName = reader.GetString(reader.GetOrdinal("name"))
-//                        });
-//                    }
-//                    reader.Close();
+        //                    while (reader.Read())
+        //                    {
+        //                        cohorts.Add(new Cohort
+        //                        {
+        //                            Id = reader.GetInt32(reader.GetOrdinal("Id")),
+        //                            CohortName = reader.GetString(reader.GetOrdinal("name"))
+        //                        });
+        //                    }
+        //                    reader.Close();
 
-//                    return cohorts;
-//                }
-//            }
+        //                    return cohorts;
+        //                }
+        //            }
 
-//        }
+        //        }
 
-//        private class StudentCreateViewModel
-//        {
-//            public StudentCreateViewModel(string v)
-//            {
-//            }
+        //        private class StudentCreateViewModel
+        //        {
+        //            public StudentCreateViewModel(string v)
+        //            {
+        //            }
 
-//            public object Student { get; internal set; }
-//        }
-//    }
-//}
+        //            public object Student { get; internal set; }
+        //        }
+    }
+}
