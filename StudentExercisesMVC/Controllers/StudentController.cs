@@ -145,7 +145,7 @@ namespace StudentExercisesMVC.Controllers
         //}
 
         // GET: Students/Edit/5
-        //public ActionResult Edit(int id)
+        //public ActionResult Edit(int id, Student student)
         //{
         //    Student student = GetStudentById(id);
         //    if (student == null)
@@ -153,13 +153,13 @@ namespace StudentExercisesMVC.Controllers
         //        return NotFound();
         //    }
 
-        //    StudentEditViewModel viewModel = new StudentEditViewModel
+        //    Student student = new Student
         //    {
-        //        Cohorts = GetAllCohorts(),
+        //        //Cohort = GetAllCohorts(),
         //        Student = student
         //    };
 
-        //    return View(viewModel);
+        //    return View(student);
         //}
 
         // POST: Student/Edit/5
@@ -244,7 +244,7 @@ namespace StudentExercisesMVC.Controllers
             }
         }
         //==========================================================================================
-
+        // NOTE: You could just call the original GetStudent method rather than querying the database all over again.
         private Student GetStudentById(int id)
         {
             using (SqlConnection conn = Connection)
