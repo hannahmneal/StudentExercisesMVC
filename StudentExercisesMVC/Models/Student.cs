@@ -8,7 +8,6 @@ namespace StudentExercisesMVC.Models
     {
         public int Id { get; set; }
 
-        //? What is this?
         [Required]
         [StringLength(50, MinimumLength = 2)]
 
@@ -27,7 +26,6 @@ namespace StudentExercisesMVC.Models
 
 
 
-        //?: Why doesn't Cohort need to have a [Required] tag?
         public Cohort Cohort { get; set; }
 
         public List<Exercise> Exercise { get; set; } = new List<Exercise>();
