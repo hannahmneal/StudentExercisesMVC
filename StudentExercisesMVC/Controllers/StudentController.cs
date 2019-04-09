@@ -199,107 +199,103 @@ namespace StudentExercisesMVC.Controllers
         //            }
         //        }
 
+        //======================================================================================
+
         //        // GET: Students/Delete/5
-        //        public ActionResult Delete(int id)
-        //        {
-        //            return View();
-        //        }
+        //NOTE: This takes us to a view which will ask the user if they are sure they want to proceed with the delete
+        public ActionResult Delete(int id)
+        {
+
+            return View();
+        }
+        //======================================================================================
 
         //        // POST: Students/Delete/5
-        //        [HttpPost]
-        //        [ValidateAntiForgeryToken]
-        //        public ActionResult Delete(int id, IFormCollection collection)
-        //        {
-        //            try
-        //            {
-        //                // TODO: Add delete logic here
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Delete(int id, IFormCollection collection)
+        {
+            try
+            {
+                // TODO: Add delete logic here
 
-        //                return RedirectToAction(nameof(Index));
-        //            }
-        //            catch
-        //            {
-        //                return View();
-        //            }
-        //        }
+                return RedirectToAction(nameof(Index));
+            }
+            catch
+            {
+                return View();
+            }
+        }
 
-        //        private Student GetStudentById(int id)
-        //        {
-        //            using (SqlConnection conn = Connection)
-        //            {
-        //                conn.Open();
-        //                using (SqlCommand cmd = conn.CreateCommand())
-        //                {
-        //                    cmd.CommandText = @"SELECT i.Id AS StudentId,
-        //                                               i.StudentFirstName, i.StudentLastName, 
-        //                                               i.StudentSlackHandle, i.student_cohort_id,
-        //                                               c.CohortName AS CohortName
-        //                                          FROM Student i LEFT JOIN Cohort c on i.student_cohort_id = c.id
-        //                                         WHERE  i.Id = @id";
-        //                    cmd.Parameters.Add(new SqlParameter("@id", id));
-        //                    SqlDataReader reader = cmd.ExecuteReader();
+        private Student GetStudentById(int id)
+        {
+            using (SqlConnection conn = Connection)
+            {
+                conn.Open();
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"SELECT i.Id AS Id,
+                                                       i.StudentFirstName, i.StudentLastName, 
+                                                       i.StudentSlackHandle, i.student_cohort_id,
+                                                       c.CohortName AS CohortName
+                                                  FROM Student i LEFT JOIN Cohort c on i.student_cohort_id = c.id
+                                                 WHERE  i.Id = @id";
+                    cmd.Parameters.Add(new SqlParameter("@id", id));
+                    SqlDataReader reader = cmd.ExecuteReader();
 
-        //                    Student student = null;
+                    Student student = null;
 
-        //                    if (reader.Read())
-        //                    {
-        //                        student = new Student
-        //                        {
-        //                            Id = reader.GetInt32(reader.GetOrdinal("InstructorId")),
-        //                            StudentFirstName = reader.GetString(reader.GetOrdinal("StudentFirstName")),
-        //                            StudentLastName = reader.GetString(reader.GetOrdinal("StudentLastName")),
-        //                            StudentSlackHandle = reader.GetString(reader.GetOrdinal("StudentSlackHandle")),
-        //                            student_cohort_id = reader.GetInt32(reader.GetOrdinal("student_cohort_id")),
-        //                            Cohort = new Cohort
-        //                            {
-        //                                Id = reader.GetInt32(reader.GetOrdinal("student_cohort_id")),
-        //                                CohortName = reader.GetString(reader.GetOrdinal("CohortName")),
-        //                            }
-        //                        };
-        //                    }
+                    if (reader.Read())
+                    {
+                        student = new Student
+                        {
+                            Id = reader.GetInt32(reader.GetOrdinal("Id")),
+                            StudentFirstName = reader.GetString(reader.GetOrdinal("StudentFirstName")),
+                            StudentLastName = reader.GetString(reader.GetOrdinal("StudentLastName")),
+                            StudentSlackHandle = reader.GetString(reader.GetOrdinal("StudentSlackHandle")),
+                            student_cohort_id = reader.GetInt32(reader.GetOrdinal("student_cohort_id")),
+                            Cohort = new Cohort
+                            {
+                                Id = reader.GetInt32(reader.GetOrdinal("student_cohort_id")),
+                                CohortName = reader.GetString(reader.GetOrdinal("CohortName")),
+                            }
+                        };
+                    }
 
-        //                    reader.Close();
+                    reader.Close();
 
-        //                    return student;
-        //                }
-        //            }
+                    return student;
+                }
+            }
 
-        //        }
+        }
 
-        //        private List<Cohort> GetAllCohorts()
-        //        {
-        //            using (SqlConnection conn = Connection)
-        //            {
-        //                conn.Open();
-        //                using (SqlCommand cmd = conn.CreateCommand())
-        //                {
-        //                    cmd.CommandText = @"SELECT id, name from Cohort;";
-        //                    SqlDataReader reader = cmd.ExecuteReader();
+        private List<Cohort> GetAllCohorts()
+        {
+            using (SqlConnection conn = Connection)
+            {
+                conn.Open();
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"SELECT id, cohortname from Cohort;";
+                    SqlDataReader reader = cmd.ExecuteReader();
 
-        //                    List<Cohort> cohorts = new List<Cohort>();
+                    List<Cohort> cohorts = new List<Cohort>();
 
-        //                    while (reader.Read())
-        //                    {
-        //                        cohorts.Add(new Cohort
-        //                        {
-        //                            Id = reader.GetInt32(reader.GetOrdinal("Id")),
-        //                            CohortName = reader.GetString(reader.GetOrdinal("name"))
-        //                        });
-        //                    }
-        //                    reader.Close();
+                    while (reader.Read())
+                    {
+                        cohorts.Add(new Cohort
+                        {
+                            Id = reader.GetInt32(reader.GetOrdinal("Id")),
+                            CohortName = reader.GetString(reader.GetOrdinal("cohortname"))
+                        });
+                    }
+                    reader.Close();
 
-        //                    return cohorts;
-        //                }
-        //            }
+                    return cohorts;
+                }
+            }
 
-        //        }
-
-        //        private class StudentCreateViewModel
-        //        {
-        //            public StudentCreateViewModel(string v)
-        //            {
-        //            }
-
-        //            public object Student { get; internal set; }
-        //        }
+        }
     }
 }
