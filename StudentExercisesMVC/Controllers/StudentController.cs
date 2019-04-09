@@ -24,7 +24,7 @@ namespace StudentExercisesMVC.Controllers
             }
         }
 
-        // GET: Instructors
+        // GET: Students
         public ActionResult Index()
         {
             using (SqlConnection conn = Connection)
@@ -66,10 +66,43 @@ namespace StudentExercisesMVC.Controllers
 
 
         // GET: Students/Details/5
-        //public ActionResult Details(int id)
-        //{
-        //    return View();
-        //}
+        public ActionResult Details(int id)
+        {
+            using (SqlConnection conn = Connection)
+            {
+                conn.Open();
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"SELECT s.Id, s.StudentFirstName, s.StudentLastName, s.StudentSlackHandle, s.student_cohort_id,
+                                               c.CohortName AS CohortName
+                                          FROM Student s LEFT JOIN Cohort c on s.student_cohort_id = c.id
+                                          WHERE s.Id = @id ";
+                    cmd.Parameters.Add(new SqlParameter("@id", id));
+                    SqlDataReader reader = cmd.ExecuteReader();
+
+                    Student student = null;
+
+                    if(reader.Read())
+                    {
+                        student = new Student
+                        {
+                            Id = reader.GetInt32(reader.GetOrdinal("Id")),
+                            StudentFirstName = reader.GetString(reader.GetOrdinal("StudentFirstName")),
+                            StudentLastName = reader.GetString(reader.GetOrdinal("StudentLastName")),
+                            StudentSlackHandle = reader.GetString(reader.GetOrdinal("StudentSlackHandle")),
+                            student_cohort_id = reader.GetInt32(reader.GetOrdinal("student_cohort_id")),
+                            Cohort = new Cohort
+                            {
+                                Id = reader.GetInt32(reader.GetOrdinal("student_cohort_id")),
+                                CohortName = reader.GetString(reader.GetOrdinal("CohortName")),
+                            }
+                        };
+                    }
+                    reader.Close();
+                    return View(student);
+                }
+            }
+        }
 
         // GET: Students/Create
         //public ActionResult Create()
