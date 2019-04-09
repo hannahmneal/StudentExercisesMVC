@@ -202,30 +202,48 @@ namespace StudentExercisesMVC.Controllers
         //======================================================================================
 
         //        // GET: Students/Delete/5
-        //NOTE: This takes us to a view which will ask the user if they are sure they want to proceed with the delete
+        //NOTE: This takes us to a view which will ask the user if they are sure they want to proceed with the delete; If you don't have this delete block, you will not be able to see the student information but you will be presented with a view that shows the table headers and a delete button and return to list link.
         public ActionResult Delete(int id)
         {
-
-            return View();
+            Student student = GetStudentById(id);
+            if (student == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                return View(student);
+            }
         }
         //======================================================================================
 
         //        // POST: Students/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public ActionResult Delete(int id, Student student)
         {
             try
             {
-                // TODO: Add delete logic here
+                using (SqlConnection conn = Connection)
+                {
+                    conn.Open();
+                    using (SqlCommand cmd = conn.CreateCommand())
+                    {
+                        cmd.CommandText = "DELETE FROM Student WHERE id = @id";
+                        cmd.Parameters.Add(new SqlParameter("@id", id));
 
-                return RedirectToAction(nameof(Index));
+                        cmd.ExecuteNonQuery();
+
+                        return RedirectToAction(nameof(Index));
+                    }
+                }
             }
             catch
             {
-                return View();
+                return View(student);
             }
         }
+        //==========================================================================================
 
         private Student GetStudentById(int id)
         {
@@ -263,7 +281,6 @@ namespace StudentExercisesMVC.Controllers
                     }
 
                     reader.Close();
-
                     return student;
                 }
             }
@@ -284,11 +301,12 @@ namespace StudentExercisesMVC.Controllers
 
                     while (reader.Read())
                     {
-                        cohorts.Add(new Cohort
+                        Cohort cohort = new Cohort
                         {
                             Id = reader.GetInt32(reader.GetOrdinal("Id")),
                             CohortName = reader.GetString(reader.GetOrdinal("cohortname"))
-                        });
+                        };
+                        cohorts.Add(cohort);
                     }
                     reader.Close();
 
