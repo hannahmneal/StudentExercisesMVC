@@ -37,13 +37,6 @@ namespace StudentExercisesMVC.Controllers
                 conn.Open();
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
-                    //cmd.CommandText = @"SELECT c.Id, c.Name, s.StudentFirstName s.StudentLastName, s.StudentSlackHandle, i.InstructorFirstName, i.InstructorLastName, i.InstructorSlackHandle
-                    //                    FROM Cohort c
-                    //                    LEFT JOIN Student s ON c.Id = s.student_cohort_id
-                    //                    LEFT JOIN Instructor i ON c.Id = i.instructor_cohort_id";
-
-                    //NOTE: For Cohort detail, I want the names of instructors and students in the cohort but I'm having trouble setting it up properly or in a way that VS recognizes. Consider using a CohortViewModel for these details instead. In the meantime, only the cohort information (name and id) are used.
-
                     cmd.CommandText = @"SELECT * FROM Cohort c";
 
                     SqlDataReader reader = cmd.ExecuteReader();
@@ -83,27 +76,33 @@ namespace StudentExercisesMVC.Controllers
                     //                    LEFT JOIN Student s ON c.Id = s.student_cohort_id
                     //                    LEFT JOIN Instructor i ON c.Id = i.instructor_cohort_id";
 
-                    //NOTE: For Cohort detail, I want the names of instructors and students in the cohort but I'm having trouble setting it up properly or in a way that VS recognizes. Consider using a CohortViewModel for these details instead. In the meantime, only the cohort information (name and id) are used.
+                    //NOTE: For Cohort detail, I want the names of instructors and students in the cohort but I'm having trouble setting it up properly. Consider using a CohortViewModel for these details instead (in the next exercise). In the meantime, only the cohort information (name and id) are used.
 
                     cmd.CommandText = @"SELECT * FROM Cohort c";
 
                     cmd.Parameters.Add(new SqlParameter("@id", id));
+                    //NOTE: A parameter is the only difference between this and cohort
                     SqlDataReader reader = cmd.ExecuteReader();
 
                     Cohort cohort = null;
+                    //NOTE: When the Sql query is executed, the cohort does not exist in C# yet.
 
                     if (reader.Read())
-
+                    //NOTE: "Read the information from the Sql query and do something with it"
                     {
                         cohort = new Cohort
+                        //NOTE: instantiates a new cohort (which, according to my model, has the capacity for listing student and instructor information). 
                         {
                             Id = reader.GetInt32(reader.GetOrdinal("Id")),
                             CohortName = reader.GetString(reader.GetOrdinal("CohortName")),
                         };
+                        //NOTE: The new cohort object is created with the information that was read from the Sql query.
                     }
 
                     reader.Close();
+                    //NOTE: Close the connection to the database.
                     return View(cohort);
+                    //NOTE: Pass the cohort object to the Cohort View to display to the user.
                 }
             }
         }
@@ -170,10 +169,11 @@ namespace StudentExercisesMVC.Controllers
 
 
         // GET: Cohorts/Delete/5
-        //public ActionResult Delete(int id)
-        //{
-        //    return View();
-        //}
+        public ActionResult Delete(int id)
+        {
+            Cohort cohort =
+            return View();
+        }
 
         //====================================================================================
 
@@ -194,5 +194,37 @@ namespace StudentExercisesMVC.Controllers
         //        return View();
         //    }
         //}
+
+
+        //====================================================================================
+        // HELPER FUNCTIONS 
+        //NOTE: (Move these somewhere else)
+
+        private List<Cohort> GetAllCohorts()
+        {
+            using (SqlConnection conn = Connection)
+            {
+                conn.Open();
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"SELECT * FROM Cohort c";
+
+                    SqlDataReader reader = cmd.ExecuteReader();
+
+                    List<Cohort> cohorts = new List<Cohort>();
+
+                    while (reader.Read())
+                    {
+                        cohorts.Add(new Cohort
+                        {
+                            Id = reader.GetInt32(reader.GetOrdinal("Id")),
+                            CohortName = reader.GetString(reader.GetOrdinal("CohortName"))
+                        });
+                    }
+                    reader.Close();
+                    return cohorts;
+                }
+            }
+        }
     }
 }
