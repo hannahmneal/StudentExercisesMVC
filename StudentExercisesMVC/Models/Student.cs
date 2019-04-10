@@ -6,6 +6,19 @@ namespace StudentExercisesMVC.Models
 {
     public class Student
     {
+        /*
+                From Student Exercise Part 1:
+
+                A student can only be in one cohort at a time. A student can be working on many exercises at a time.
+
+                    1. First name
+                    2. Last name
+                    3. Slack handle
+                    4. The student's cohort
+                    5. The collection of exercises that the student is currently working on
+            */
+
+
         public int Id { get; set; }
 
         [Required]

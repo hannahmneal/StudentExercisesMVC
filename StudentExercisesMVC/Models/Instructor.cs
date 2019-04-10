@@ -8,6 +8,18 @@ namespace StudentExercisesMVC.Models
 {
     public class Instructor
     {
+
+     /*
+               From Student Exercises 1
+
+               1. First name
+               2.  Last name
+               3. Slack handle
+               4. The instructor's cohort
+               5. A method to assign an exercise to a student
+             */
+
+
         public int Id { get; set; }
         [Required]
         [Display(Name = "First Name")]
